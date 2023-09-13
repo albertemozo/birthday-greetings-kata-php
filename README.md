@@ -25,7 +25,8 @@ To check that all the tests are passing just execute PHPUnit
 
 ```bash
 docker-compose up -d
-php bin/phpunit
+php composer.phar install
+bin/phpunit
 ```
 
 Now open your favourite IDE/text editor and start hacking.
