@@ -1,6 +1,16 @@
 version: "3.9"
 
 services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./:/srv/app
+    tty: true
+    command: "/bin/bash"
   mailhog:
     image: mailhog/mailhog
     ports:
