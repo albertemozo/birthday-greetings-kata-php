@@ -12,12 +12,13 @@ final readonly class BirthdayService
 
     public function __construct(private EmployeesRepository $employeesRepository)
     {
-        $this->greeter = new EmailGreeter();
     }
 
     public function sendGreetings(XDate $xDate, string $smtpHost, int $smtpPort): void
     {
         $employees = $this->employeesRepository->onBirthday($xDate);
+
+        $this->greeter = new EmailGreeter($smtpHost, $smtpPort);
 
         foreach ($employees as $employee) {
             $this->greeter->greet($employee, $smtpHost, $smtpPort);
