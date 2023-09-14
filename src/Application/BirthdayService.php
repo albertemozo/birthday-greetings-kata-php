@@ -23,27 +23,18 @@ final readonly class BirthdayService
         }
     }
 
-    private function sendMessage(string $smtpHost, int $smtpPort, string $sender, string $subject, string $body, string $recipient): void
+    private function greet(Employee $employee, string $smtpHost, int $smtpPort): void
     {
         $mailer = new Mailer(
             Transport::fromDsn('smtp://' . $smtpHost . ':' . $smtpPort)
         );
 
-        $msg = (new Email())
-            ->subject($subject)
-            ->from($sender)
-            ->to($recipient)
-            ->text($body);
+        $message = (new Email())
+            ->subject('Happy Birthday!')
+            ->from('sender@here.com')
+            ->to($employee->getEmail())
+            ->text(sprintf('Happy Birthday, dear %s!', $employee->getFirstName()));
 
-        $mailer->send($msg);
-    }
-
-    private function greet(Employee $employee, string $smtpHost, int $smtpPort): void
-    {
-        $recipient = $employee->getEmail();
-        $body = sprintf('Happy Birthday, dear %s!', $employee->getFirstName());
-        $subject = 'Happy Birthday!';
-
-        $this->sendMessage($smtpHost, $smtpPort, 'sender@here.com', $subject, $body, $recipient);
+        $mailer->send($message);
     }
 }
