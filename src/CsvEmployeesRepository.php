@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace BirthdayGreetingsKata;
 
-final class CsvEmployeesRepository
+final readonly class CsvEmployeesRepository
 {
-    private string|null $fileName;
-
-    public function __construct(string|null $fileName = null)
+    public function __construct(private string $fileName)
     {
-        if ($fileName !== null) {
-            $this->fileName = $fileName;
-        }
     }
 
     public function employeesOnBirthday(XDate $xDate): array
