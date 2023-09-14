@@ -17,8 +17,11 @@ final class EmailGreeter
 
     public function greet(Employee $employee, string $smtpHost, int $smtpPort): void
     {
+        $this->smtpPort = $smtpPort;
+        $this->smtpHost = $smtpHost;
+
         $mailer = new Mailer(
-            Transport::fromDsn('smtp://' . $smtpHost . ':' . $smtpPort)
+            Transport::fromDsn('smtp://' . $this->smtpHost . ':' . $this->smtpPort)
         );
 
         $message = (new Email())
