@@ -6,6 +6,11 @@ namespace BirthdayGreetingsKata;
 
 final readonly class CsvEmployeesRepository
 {
+    private const FIRST_NAME_COLUMN = 1;
+    private const LAST_NAME_COLUMN = 0;
+    private const BIRTH_DATE_COLUMN = 2;
+    private const EMAIL_COLUMN = 3;
+
     public function __construct(private string $fileName)
     {
     }
@@ -19,7 +24,12 @@ final readonly class CsvEmployeesRepository
 
         while ($employeeData = fgetcsv($fileHandler, null, ',')) {
             $employeeData = array_map('trim', $employeeData);
-            $employee = new Employee($employeeData[1], $employeeData[0], $employeeData[2], $employeeData[3]);
+            $employee = new Employee(
+                $employeeData[self::FIRST_NAME_COLUMN],
+                $employeeData[self::LAST_NAME_COLUMN],
+                $employeeData[self::BIRTH_DATE_COLUMN],
+                $employeeData[self::EMAIL_COLUMN]
+            );
             if ($employee->isBirthday($xDate)) {
                 $employees[] = $employee;
             }
