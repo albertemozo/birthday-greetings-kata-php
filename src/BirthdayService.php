@@ -20,7 +20,9 @@ final class BirthdayService
         while ($employeeData = fgetcsv($fileHandler, null, ',')) {
             $employeeData = array_map('trim', $employeeData);
             $employee = new Employee($employeeData[1], $employeeData[0], $employeeData[2], $employeeData[3]);
-            $employees[] = $employee;
+            if ($employee->isBirthday($xDate)) {
+                $employees[] = $employee;
+            }
         }
 
         foreach ($employees as $employee) {
