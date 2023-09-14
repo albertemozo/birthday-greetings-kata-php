@@ -11,15 +11,12 @@ use Symfony\Component\Mime\Email;
 
 final class EmailGreeter
 {
-    public function __construct(private string|null $smtpHost = null, private int|null $smtpPort = null)
+    public function __construct(private string $smtpHost, private int $smtpPort)
     {
     }
 
-    public function greet(Employee $employee, string $smtpHost, int $smtpPort): void
+    public function greet(Employee $employee): void
     {
-        $this->smtpPort = $smtpPort;
-        $this->smtpHost = $smtpHost;
-
         $mailer = new Mailer(
             Transport::fromDsn('smtp://' . $this->smtpHost . ':' . $this->smtpPort)
         );

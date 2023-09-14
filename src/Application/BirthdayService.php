@@ -21,7 +21,7 @@ final readonly class BirthdayService
         $this->greeter = new EmailGreeter($smtpHost, $smtpPort);
 
         foreach ($employees as $employee) {
-            $this->greeter->greet($employee, $smtpHost, $smtpPort);
+            $this->greeter->greet($employee);
         }
     }
 }
