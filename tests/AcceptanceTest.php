@@ -50,7 +50,6 @@ final class AcceptanceTest extends TestCase
     public function willSendGreetings_whenItsSomebodysBirthday(): void
     {
         $this->service->sendGreetings(
-            __DIR__ . '/resources/employee_data.txt',
             new XDate('2008/10/08'),
             static::SMTP_HOST,
             static::SMTP_PORT
@@ -70,7 +69,6 @@ final class AcceptanceTest extends TestCase
     public function willNotSendEmailsWhenNobodysBirthday(): void
     {
         $this->service->sendGreetings(
-            __DIR__ . '/resources/employee_data.txt',
             new XDate('2008/01/01'),
             static::SMTP_HOST,
             static::SMTP_PORT

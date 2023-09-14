@@ -8,20 +8,15 @@ use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
 
-final class BirthdayService
+final readonly class BirthdayService
 {
-    private CsvEmployeesRepository $csvEmployeesRepository;
-
-    public function __construct(CsvEmployeesRepository $employeesRepository = null)
+    public function __construct(private CsvEmployeesRepository $employeesRepository)
     {
-        if ($employeesRepository !== null) {
-            $this->csvEmployeesRepository = $employeesRepository;
-        }
     }
 
-    public function sendGreetings(string $fileName, XDate $xDate, string $smtpHost, int $smtpPort): void
+    public function sendGreetings(XDate $xDate, string $smtpHost, int $smtpPort): void
     {
-        $employees = $this->csvEmployeesRepository->onBirthday($xDate);
+        $employees = $this->employeesRepository->onBirthday($xDate);
 
         foreach ($employees as $employee) {
             $recipient = $employee->getEmail();
