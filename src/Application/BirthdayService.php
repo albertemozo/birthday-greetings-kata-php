@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace BirthdayGreetingsKata\Application;
 
-use BirthdayGreetingsKata\Adapters\CsvEmployeesRepository;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
 
 final readonly class BirthdayService
 {
-    public function __construct(private CsvEmployeesRepository $employeesRepository)
+    public function __construct(private EmployeesRepository $employeesRepository)
     {
     }
 

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace BirthdayGreetingsKata\Adapters;
 
 use BirthdayGreetingsKata\Application\Employee;
+use BirthdayGreetingsKata\Application\EmployeesRepository;
 use BirthdayGreetingsKata\Application\XDate;
 
-final readonly class CsvEmployeesRepository
+final readonly class CsvEmployeesRepository implements EmployeesRepository
 {
     private const FIRST_NAME_COLUMN = 1;
     private const LAST_NAME_COLUMN = 0;
