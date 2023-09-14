@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\BirthdayGreetingsKata;
 
 use BirthdayGreetingsKata\BirthdayService;
+use BirthdayGreetingsKata\CsvEmployeesRepository;
 use BirthdayGreetingsKata\XDate;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Attributes\After;
@@ -33,7 +34,8 @@ final class AcceptanceTest extends TestCase
         Process::fromShellCommandline('docker stop $(docker ps -a)')->run();
         Process::fromShellCommandline('docker compose up -d')->run();
 
-        $this->service = new BirthdayService();
+        $employeeRepository = new CsvEmployeesRepository(__DIR__ . '/resources/employee_data.txt');
+        $this->service = new BirthdayService($employeeRepository);
     }
 
     #[After]
