@@ -28,19 +28,16 @@ final readonly class BirthdayService
 
     private function sendMessage(string $smtpHost, int $smtpPort, string $sender, string $subject, string $body, string $recipient): void
     {
-        // Create a mailer
         $mailer = new Mailer(
             Transport::fromDsn('smtp://' . $smtpHost . ':' . $smtpPort)
         );
 
-        // Construct the message
         $msg = (new Email())
             ->subject($subject)
             ->from($sender)
             ->to($recipient)
             ->text($body);
 
-        // Send the message
         $mailer->send($msg);
     }
 
