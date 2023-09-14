@@ -12,8 +12,11 @@ final class BirthdayService
 {
     private CsvEmployeesRepository $csvEmployeesRepository;
 
-    public function __construct()
+    public function __construct(CsvEmployeesRepository $employeesRepository = null)
     {
+        if ($employeesRepository !== null) {
+            $this->csvEmployeesRepository = $employeesRepository;
+        }
     }
 
     public function sendGreetings(string $fileName, XDate $xDate, string $smtpHost, int $smtpPort): void
