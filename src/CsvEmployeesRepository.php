@@ -6,6 +6,15 @@ namespace BirthdayGreetingsKata;
 
 final class CsvEmployeesRepository
 {
+    private string|null $fileName;
+
+    public function __construct(string|null $fileName = null)
+    {
+        if ($fileName !== null) {
+            $this->fileName = $fileName;
+        }
+    }
+
     public function employeesOnBirthday(string $fileName, XDate $xDate): array
     {
         $fileHandler = fopen($fileName, 'rb');
