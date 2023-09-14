@@ -19,10 +19,7 @@ final readonly class BirthdayService
         $employees = $this->employeesRepository->onBirthday($xDate);
 
         foreach ($employees as $employee) {
-            $recipient = $employee->getEmail();
-            $body = sprintf('Happy Birthday, dear %s!', $employee->getFirstName());
-            $subject = 'Happy Birthday!';
-            $this->sendMessage($smtpHost, $smtpPort, 'sender@here.com', $subject, $body, $recipient);
+            $this->greet($employee, $smtpHost, $smtpPort);
         }
     }
 
@@ -41,4 +38,12 @@ final readonly class BirthdayService
         $mailer->send($msg);
     }
 
+    private function greet(Employee $employee, string $smtpHost, int $smtpPort): void
+    {
+        $recipient = $employee->getEmail();
+        $body = sprintf('Happy Birthday, dear %s!', $employee->getFirstName());
+        $subject = 'Happy Birthday!';
+
+        $this->sendMessage($smtpHost, $smtpPort, 'sender@here.com', $subject, $body, $recipient);
+    }
 }
