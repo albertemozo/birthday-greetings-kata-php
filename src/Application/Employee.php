@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayGreetingsKata;
+namespace BirthdayGreetingsKata\Application;
 
 final class Employee
 {

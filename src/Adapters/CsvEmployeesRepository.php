@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BirthdayGreetingsKata;
+namespace BirthdayGreetingsKata\Adapters;
+
+use BirthdayGreetingsKata\Application\Employee;
+use BirthdayGreetingsKata\Application\XDate;
 
 final readonly class CsvEmployeesRepository
 {

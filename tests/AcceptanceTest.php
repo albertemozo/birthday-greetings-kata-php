@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\BirthdayGreetingsKata;
 
-use BirthdayGreetingsKata\BirthdayService;
-use BirthdayGreetingsKata\CsvEmployeesRepository;
-use BirthdayGreetingsKata\XDate;
+use BirthdayGreetingsKata\Adapters\CsvEmployeesRepository;
+use BirthdayGreetingsKata\Application\XDate;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Attributes\After;
 use PHPUnit\Framework\Attributes\Before;
@@ -19,7 +18,7 @@ final class AcceptanceTest extends TestCase
     private const SMTP_HOST = '127.0.0.1';
     private const SMTP_PORT = 1025;
 
-    private BirthdayService $service;
+    private \BirthdayGreetingsKata\Application\BirthdayService $service;
 
     #[Before]
     protected function startMailhog(): void
@@ -35,7 +34,7 @@ final class AcceptanceTest extends TestCase
         Process::fromShellCommandline('docker compose up -d')->run();
 
         $employeeRepository = new CsvEmployeesRepository(__DIR__ . '/resources/employee_data.txt');
-        $this->service = new BirthdayService($employeeRepository);
+        $this->service = new \BirthdayGreetingsKata\Application\BirthdayService($employeeRepository);
     }
 
     #[After]

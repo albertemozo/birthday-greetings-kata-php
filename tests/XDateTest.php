@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\BirthdayGreetingsKata;
 
-use BirthdayGreetingsKata\XDate;
+use BirthdayGreetingsKata\Application\XDate;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
