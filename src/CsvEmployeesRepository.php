@@ -15,9 +15,9 @@ final class CsvEmployeesRepository
         }
     }
 
-    public function employeesOnBirthday(string $fileName, XDate $xDate): array
+    public function employeesOnBirthday(XDate $xDate): array
     {
-        $fileHandler = fopen($fileName, 'rb');
+        $fileHandler = fopen($this->fileName, 'rb');
         fgetcsv($fileHandler);
 
         $employees = [];
