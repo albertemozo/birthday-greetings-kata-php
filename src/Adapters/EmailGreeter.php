@@ -11,6 +11,10 @@ use Symfony\Component\Mime\Email;
 
 final class EmailGreeter
 {
+    public function __construct(private string|null $smtpHost = null, private int|null $smtpPort = null)
+    {
+    }
+
     public function greet(Employee $employee, string $smtpHost, int $smtpPort): void
     {
         $mailer = new Mailer(
