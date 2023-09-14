@@ -19,7 +19,7 @@ final class BirthdayService
     public function sendGreetings(string $fileName, XDate $xDate, string $smtpHost, int $smtpPort): void
     {
         $this->csvEmployeesRepository = new CsvEmployeesRepository($fileName);
-        $employees = $this->csvEmployeesRepository->employeesOnBirthday($xDate);
+        $employees = $this->csvEmployeesRepository->onBirthday($xDate);
 
         foreach ($employees as $employee) {
             $recipient = $employee->getEmail();

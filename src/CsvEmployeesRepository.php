@@ -10,7 +10,7 @@ final readonly class CsvEmployeesRepository
     {
     }
 
-    public function employeesOnBirthday(XDate $xDate): array
+    public function onBirthday(XDate $xDate): array
     {
         $fileHandler = fopen($this->fileName, 'rb');
         fgetcsv($fileHandler);
