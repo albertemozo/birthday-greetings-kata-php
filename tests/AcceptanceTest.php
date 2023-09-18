@@ -15,7 +15,6 @@ use Symfony\Component\Process\Process;
 
 final class AcceptanceTest extends TestCase
 {
-    private const SMTP_HOST = 'mailhog';
     private const SMTP_PORT = 1025;
 
     private BirthdayService $service;
@@ -29,7 +28,7 @@ final class AcceptanceTest extends TestCase
     #[After]
     protected function stopMailhog(): void
     {
-        (new Client())->delete('http://mailhog:8025/api/v1/messages');
+        (new Client())->delete('http://' . $this->mailhogHost() . ':8025/api/v1/messages');
     }
 
     #[Test]
@@ -38,7 +37,7 @@ final class AcceptanceTest extends TestCase
         $this->service->sendGreetings(
             __DIR__ . '/resources/employee_data.txt',
             new XDate('2008/10/08'),
-            static::SMTP_HOST,
+            $this->mailhogHost(),
             static::SMTP_PORT
         );
 
@@ -58,7 +57,7 @@ final class AcceptanceTest extends TestCase
         $this->service->sendGreetings(
             __DIR__ . '/resources/employee_data.txt',
             new XDate('2008/01/01'),
-            static::SMTP_HOST,
+            $this->mailhogHost(),
             static::SMTP_PORT
         );
 
@@ -67,6 +66,18 @@ final class AcceptanceTest extends TestCase
 
     private function messagesSent(): array
     {
-        return json_decode(file_get_contents('http://mailhog:8025/api/v1/messages'), true);
+        return json_decode(
+            file_get_contents('http://' . $this->mailhogHost() . ':8025/api/v1/messages'),
+            true
+        );
+    }
+
+    private function mailhogHost(): string
+    {
+        if (is_file("/.dockerenv")) {
+            return 'mailhog';
+        }
+
+        return '127.0.0.1';
     }
 }
