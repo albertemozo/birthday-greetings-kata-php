@@ -15,7 +15,6 @@ use Symfony\Component\Process\Process;
 
 final class AcceptanceTest extends TestCase
 {
-    private const SMTP_HOST = '127.0.0.1';
     private const SMTP_PORT = 1025;
 
     private \BirthdayGreetingsKata\Application\BirthdayService $service;
@@ -23,26 +22,13 @@ final class AcceptanceTest extends TestCase
     #[Before]
     protected function startMailhog(): void
     {
-        $whichDockerCompose = Process::fromShellCommandline('which docker-compose');
-        $whichDockerCompose->run();
-
-        if ('' === $whichDockerCompose->getOutput()) {
-            $this->markTestSkipped('To run this test you should have docker-compose installed.');
-        }
-
-        Process::fromShellCommandline('docker stop $(docker ps -a)')->run();
-        Process::fromShellCommandline('docker compose up -d')->run();
-
-        $employeeRepository = new CsvEmployeesRepository(__DIR__ . '/resources/employee_data.txt');
-        $this->service = new \BirthdayGreetingsKata\Application\BirthdayService($employeeRepository);
+        $this->service = new BirthdayService();
     }
 
     #[After]
     protected function stopMailhog(): void
     {
-        (new Client())->delete('http://127.0.0.1:8025/api/v1/messages');
-        Process::fromShellCommandline('docker compose stop')->run();
-        Process::fromShellCommandline('docker compose rm -f')->run();
+        (new Client())->delete('http://' . $this->mailhogHost() . ':8025/api/v1/messages');
     }
 
     #[Test]
@@ -50,7 +36,7 @@ final class AcceptanceTest extends TestCase
     {
         $this->service->sendGreetings(
             new XDate('2008/10/08'),
-            static::SMTP_HOST,
+            $this->mailhogHost(),
             static::SMTP_PORT
         );
 
@@ -69,7 +55,7 @@ final class AcceptanceTest extends TestCase
     {
         $this->service->sendGreetings(
             new XDate('2008/01/01'),
-            static::SMTP_HOST,
+            $this->mailhogHost(),
             static::SMTP_PORT
         );
 
@@ -78,6 +64,18 @@ final class AcceptanceTest extends TestCase
 
     private function messagesSent(): array
     {
-        return json_decode(file_get_contents('http://127.0.0.1:8025/api/v1/messages'), true);
+        return json_decode(
+            file_get_contents('http://' . $this->mailhogHost() . ':8025/api/v1/messages'),
+            true
+        );
+    }
+
+    private function mailhogHost(): string
+    {
+        if (is_file("/.dockerenv")) {
+            return 'mailhog';
+        }
+
+        return '127.0.0.1';
     }
 }
