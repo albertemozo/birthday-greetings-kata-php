@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\BirthdayGreetingsKata;
 
 use BirthdayGreetingsKata\Adapters\CsvEmployeesRepository;
+use BirthdayGreetingsKata\Application\BirthdayService;
 use BirthdayGreetingsKata\Application\XDate;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Attributes\After;
@@ -17,12 +18,13 @@ final class AcceptanceTest extends TestCase
 {
     private const SMTP_PORT = 1025;
 
-    private \BirthdayGreetingsKata\Application\BirthdayService $service;
+    private BirthdayService $service;
 
     #[Before]
     protected function startMailhog(): void
     {
-        $this->service = new BirthdayService();
+        $employeeRepository = new CsvEmployeesRepository(__DIR__ . '/resources/employee_data.txt');
+        $this->service = new BirthdayService($employeeRepository);
     }
 
     #[After]
