@@ -10,7 +10,7 @@ final class BirthdayService
 {
     public function __construct(
         private readonly EmployeesRepository $employeesRepository,
-        private ?EmailGreeter $greeter = null
+        private EmailGreeter $greeter
     )
     {
     }
