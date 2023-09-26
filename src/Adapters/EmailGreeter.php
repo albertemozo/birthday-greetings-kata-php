@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace BirthdayGreetingsKata\Adapters;
 
 use BirthdayGreetingsKata\Application\Employee;
+use BirthdayGreetingsKata\Application\Greeter;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
 
-final class EmailGreeter
+final class EmailGreeter implements Greeter
 {
     public function __construct(private string $smtpHost, private int $smtpPort)
     {
