@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace BirthdayGreetingsKata\Application;
 
-use BirthdayGreetingsKata\Adapters\EmailGreeter;
-
 final readonly class BirthdayService
 {
     public function __construct(
         private EmployeesRepository $employeesRepository,
-        private EmailGreeter $greeter
+        private Greeter $greeter
     )
     {
     }
