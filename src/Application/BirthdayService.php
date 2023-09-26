@@ -15,7 +15,7 @@ final readonly class BirthdayService
     {
     }
 
-    public function sendGreetings(XDate $xDate, string $smtpHost, int $smtpPort): void
+    public function sendGreetings(XDate $xDate): void
     {
         $employees = $this->employeesRepository->onBirthday($xDate);
 
