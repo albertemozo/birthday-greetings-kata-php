@@ -6,13 +6,11 @@ namespace BirthdayGreetingsKata\Application;
 
 use BirthdayGreetingsKata\Adapters\EmailGreeter;
 
-final readonly class BirthdayService
+final class BirthdayService
 {
-    private EmailGreeter $greeter;
-
     public function __construct(
-        private EmployeesRepository $employeesRepository,
-        private ?EmailGreeter $emailGreeter = null
+        private readonly EmployeesRepository $employeesRepository,
+        private ?EmailGreeter $greeter = null
     )
     {
     }
@@ -20,6 +18,10 @@ final readonly class BirthdayService
     public function sendGreetings(XDate $xDate, string $smtpHost, int $smtpPort): void
     {
         $employees = $this->employeesRepository->onBirthday($xDate);
+
+        if ($this->greeter === null) {
+            $this->greeter = new EmailGreeter($smtpHost, $smtpPort);
+        }
 
         foreach ($employees as $employee) {
             $this->greeter->greet($employee);
