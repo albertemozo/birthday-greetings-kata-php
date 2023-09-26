@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\BirthdayGreetingsKata;
 
 use BirthdayGreetingsKata\Adapters\CsvEmployeesRepository;
+use BirthdayGreetingsKata\Adapters\EmailGreeter;
 use BirthdayGreetingsKata\Application\BirthdayService;
 use BirthdayGreetingsKata\Application\XDate;
 use GuzzleHttp\Client;
@@ -24,7 +25,8 @@ final class AcceptanceTest extends TestCase
     protected function startMailhog(): void
     {
         $employeeRepository = new CsvEmployeesRepository(__DIR__ . '/resources/employee_data.txt');
-        $this->service = new BirthdayService($employeeRepository);
+        $greeter = new EmailGreeter($this->mailhogHost(), static::SMTP_PORT);
+        $this->service = new BirthdayService($employeeRepository, $greeter);
     }
 
     #[After]
